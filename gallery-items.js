@@ -1,4 +1,4 @@
-export default [
+const exportImages = [
   {
     preview:
       'https://cdn.pixabay.com/photo/2019/05/14/16/43/himilayan-blue-poppy-4202825__340.jpg',
@@ -63,3 +63,55 @@ export default [
     description: 'Lighthouse Coast Sea',
   },
 ];
+
+const imagesConteiner = document.querySelector('.js-gallery')
+const imagesMurkup = createImageCardsMarkup(exportImages);
+const lightboxConteiner = document.querySelector('.js-lightbox')
+const lightboxOverlay = document.querySelector('.lightbox__overlay')
+const lightboxImage = document.querySelector('.lightbox__image')
+const btnCloseModal = document.querySelector('.lightbox__button')
+
+imagesConteiner.insertAdjacentHTML("afterbegin", imagesMurkup)
+
+imagesConteiner.addEventListener('click', onImagesConteinerClick)
+
+
+
+function createImageCardsMarkup(cards) {
+  return exportImages.map(({preview, original, description}) => {
+        return `<li class="gallery__item">
+  <a
+    class="gallery__link"
+    href="${original}"
+  >
+    <img
+      class="gallery__image"
+      src="${preview}"
+      data-source="${original}"
+      alt="${description}"
+    />
+  </a>
+</li>`
+      }). join(' ')
+}
+
+function onImagesConteinerClick(event) {
+  event.preventDefault()
+  if (event.target === event.currentTarget) {
+    return
+  }
+  lightboxConteiner.classList.add('is-open')
+  onOpenImage(event)
+  btnCloseModal.addEventListener('click', onCloseModal)
+}
+
+function onOpenImage(event) {
+  lightboxImage.src = event.target.dataset.source;
+  lightboxImage.alt = event.target.alt;
+}
+
+function onCloseModal(event) {
+  lightboxConteiner.classList.remove('is-open')
+  lightboxImage.src = "";
+  lightboxImage.alt = "";
+}
