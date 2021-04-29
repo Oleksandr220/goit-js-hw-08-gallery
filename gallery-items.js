@@ -65,15 +65,16 @@ const exportImages = [
 ];
 
 const imagesConteiner = document.querySelector('.js-gallery')
-const imagesMurkup = createImageCardsMarkup(exportImages);
 const lightboxConteiner = document.querySelector('.js-lightbox')
 const lightboxOverlay = document.querySelector('.lightbox__overlay')
 const lightboxImage = document.querySelector('.lightbox__image')
 const btnCloseModal = document.querySelector('.lightbox__button')
 
+const imagesMurkup = createImageCardsMarkup(exportImages);
 imagesConteiner.insertAdjacentHTML("afterbegin", imagesMurkup)
 
 imagesConteiner.addEventListener('click', onImagesConteinerClick)
+lightboxOverlay.addEventListener('click', onCloseModalOverlay)
 
 
 
@@ -114,4 +115,10 @@ function onCloseModal(event) {
   lightboxConteiner.classList.remove('is-open')
   lightboxImage.src = "";
   lightboxImage.alt = "";
+}
+
+function onCloseModalOverlay(event) {
+  if (event.target === event.currentTarget) {
+    onCloseModal()
+  }
 }
